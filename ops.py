@@ -90,12 +90,12 @@ def upconv2d(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name
     # We first upsample two strides-worths. The convolution will then bring it down one stride.
     new_h = input_.get_shape().as_list()[1] * d_h ** 2
     new_w = input_.get_shape().as_list()[2] * d_w ** 2
-    upsized = tf.image.resize_images(input_, [new_h, new_w], method=1) #method=1 上采样方式--双线性插值
+    upsized = tf.image.resize_images(input_, [new_h, new_w], method=0) #method：1最近邻 0双线性插值
     print("upsized",upsized.get_shape())
 
     # Now convolve to get the channels to what we want.
     w = tf.get_variable(name='w',shape=shape,dtype=tf.float32,
-                        initializer=tf.random_normal_initializer(stddev=stddev)) #w初始化方式可变更
+                        initializer=tf.random_normal_initializer(stddev=stddev)) #w初始化方式可变更 truncated_normal_initializer
     conv = tf.nn.conv2d(upsized,filter=w,strides=[1, d_h, d_w, 1],padding="SAME")
     print("conv",conv.get_shape())
     biases = tf.get_variable('biases', [output_shape[-1]], initializer=tf.constant_initializer(0.0))
