@@ -1,6 +1,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+# os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import scipy.misc
 import numpy as np
 from model import DCGAN
@@ -44,6 +44,7 @@ def main(_):
   #gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.333)
   run_config = tf.ConfigProto(allow_soft_placement = True, log_device_placement = True)
   run_config.gpu_options.allow_growth=True
+  # run_config.gpu_options.per_process_gpu_memory_fraction = 0.8
 
   with tf.Session(config=run_config) as sess:
     if FLAGS.dataset == 'mnist':
