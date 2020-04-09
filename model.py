@@ -281,7 +281,7 @@ class DCGAN(object):
                   self.y:sample_labels,
               }
             )
-            save_images(samples, [8, 8],
+            save_images(samples,  [int(math.sqrt(self.batch_size)), int(math.sqrt(self.batch_size))],
                   './{}/train_{:02d}_{:04d}.png'.format(config.sample_dir, epoch, idx))
             print("[Sample] d_loss: %.8f, g_loss: %.8f" % (d_loss, g_loss)) 
           else:
@@ -298,7 +298,7 @@ class DCGAN(object):
               print("[Sample] d_loss: %.8f, g_loss: %.8f" % (d_loss, g_loss))
             except:
               print("one pic error!...")
-        if np.mod(counter, 100) == 2:
+        if np.mod(counter, 1000) == 2:
           self.save(config.checkpoint_dir, counter)
 
   def discriminator(self, image, y=None, reuse=False):
